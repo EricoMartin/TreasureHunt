@@ -58,25 +58,30 @@ internal object GeofencingConstants {
             "golden_gate_bridge",
             R.string.golden_gate_bridge_hint,
             R.string.golden_gate_bridge_location,
-            LatLng(37.819927, -122.478256)),
+            LatLng(8.970214, 7.435380)
+        ),
 
         LandmarkDataObject(
             "ferry_building",
             R.string.ferry_building_hint,
             R.string.ferry_building_location,
-            LatLng(37.795490, -122.394276)),
+            LatLng(8.970618, 7.435526)
+        ),
 
         LandmarkDataObject(
             "pier_39",
             R.string.pier_39_hint,
             R.string.pier_39_location,
-            LatLng(37.808674, -122.409821)),
+            LatLng(8.970556, 7.435655)
+        ),
 
         LandmarkDataObject(
-           "union_square",
+            "union_square",
             R.string.union_square_hint,
             R.string.union_square_location,
-            LatLng(37.788151, -122.407570))
+            LatLng(8.970510, 7.435739)
+        )
+
     )
 
     val NUM_LANDMARKS = LANDMARK_DATA.size

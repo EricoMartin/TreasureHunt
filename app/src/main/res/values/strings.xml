@@ -74,4 +74,13 @@
     <!-- Content Description Strings -->
     <string name="android_map_description">An Android robot with a map</string>
 
+    <!--Extra Strings for Kodecamp Task -->
+    <string name="baddest_hoodt">Go to the baddest street in the City</string>
+    <!-- Geofence Locations -->
+    <string name="bad_street_location">at the Bad Street</string>
+
+    <string name="badder_street_hint">Go to another bad street in the City</string>
+    <!-- Geofence Locations1 -->
+    <string name="badder_street_location">at a Badder Street</string>
+
 </resources>
