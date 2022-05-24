@@ -53,7 +53,7 @@ internal object GeofencingConstants {
      */
     val GEOFENCE_EXPIRATION_IN_MILLISECONDS: Long = TimeUnit.HOURS.toMillis(1)
 
-    val LANDMARK_DATA = arrayOf(
+    var LANDMARK_DATA = arrayOf(
         LandmarkDataObject(
             "golden_gate_bridge",
             R.string.golden_gate_bridge_hint,
@@ -75,12 +75,12 @@ internal object GeofencingConstants {
             LatLng(8.970556, 7.435655)
         ),
 
-        LandmarkDataObject(
-            "union_square",
-            R.string.union_square_hint,
-            R.string.union_square_location,
-            LatLng(8.970510, 7.435739)
-        )
+//        LandmarkDataObject(
+//            "union_square",
+//            R.string.union_square_hint,
+//            R.string.union_square_location,
+//            LatLng(8.970510, 7.435739)
+//        )
 
     )
 

@@ -36,6 +36,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.android.treasureHunt.databinding.ActivityHuntMainBinding
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -66,19 +67,28 @@ class HuntMainActivity : AppCompatActivity() {
         // Use FLAG_UPDATE_CURRENT so that you get the same pending intent back when calling
         // addGeofences() and removeGeofences().
         PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_hunt_main)
-        viewModel = ViewModelProviders.of(this, SavedStateViewModelFactory(this.application,
-            this)).get(GeofenceViewModel::class.java)
+        viewModel = ViewModelProviders.of(
+            this, SavedStateViewModelFactory(
+                this.application,
+                this
+            )
+        ).get(GeofenceViewModel::class.java)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         geofencingClient = LocationServices.getGeofencingClient(this)
 
+        // Check for passed intent extra data
+        Log.i("HuntMainActivity", intent.getDoubleExtra("firstLatitude", 0.00).toString())
+
         // Create channel for notifications
-        createChannel(this )
+        createChannel(this)
+
     }
 
     override fun onStart() {
@@ -107,8 +117,13 @@ class HuntMainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         val extras = intent?.extras
-        if(extras != null){
-            if(extras.containsKey(GeofencingConstants.EXTRA_GEOFENCE_INDEX)){
+        if (extras != null) {
+            Toast.makeText(
+                this,
+                "Move to the next geofence: ${extras.getInt(GeofencingConstants.EXTRA_GEOFENCE_INDEX)}",
+                Toast.LENGTH_LONG
+            ).show()
+            if (extras.containsKey(GeofencingConstants.EXTRA_GEOFENCE_INDEX)) {
                 viewModel.updateHint(extras.getInt(GeofencingConstants.EXTRA_GEOFENCE_INDEX))
                 checkPermissionsAndStartGeofencing()
             }
@@ -276,7 +291,41 @@ class HuntMainActivity : AppCompatActivity() {
     private fun addGeofenceForClue() {
         if (viewModel.geofenceIsActive()) return
         val currentGeofenceIndex = viewModel.nextGeofenceIndex()
-        if(currentGeofenceIndex >= GeofencingConstants.NUM_LANDMARKS) {
+
+        GeofencingConstants.LANDMARK_DATA[0] = LandmarkDataObject(
+            "nogalss",
+            R.string.bade_street_hint,
+            R.string.bade_street_location,
+            LatLng(
+                intent.getDoubleExtra("firstLatitude", 0.00),
+                intent.getDoubleExtra("firstLongitude", 0.00)
+            )
+        )
+        GeofencingConstants.LANDMARK_DATA[1] = LandmarkDataObject(
+            "nogalss1",
+            R.string.bade_street,
+            R.string.nogalss_street_location,
+            LatLng(
+                intent.getDoubleExtra("secondLatitude", 0.00),
+                intent.getDoubleExtra("secondLongitude", 0.00)
+            )
+        )
+        GeofencingConstants.LANDMARK_DATA[2] = LandmarkDataObject(
+            "nogalss2",
+            R.string.nogalss,
+            R.string.nogalss_street_location,
+            LatLng(
+                intent.getDoubleExtra("thirdLatitude", 0.00),
+                intent.getDoubleExtra("thirdLongitude", 0.00)
+            )
+        )
+
+        if (currentGeofenceIndex >= GeofencingConstants.NUM_LANDMARKS) {
+            Toast.makeText(
+                this,
+                "Congratulations, You have hunted the treasure!",
+                Toast.LENGTH_LONG
+            ).show()
             removeGeofences()
             viewModel.geofenceActivated()
             return

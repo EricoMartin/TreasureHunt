@@ -43,7 +43,9 @@ class GeofenceViewModel(state: SavedStateHandle) : ViewModel() {
         when {
             index < 0 -> R.string.not_started_hint
             index < GeofencingConstants.NUM_LANDMARKS -> GeofencingConstants.LANDMARK_DATA[geofenceIndex.value!!].hint
-            else -> R.string.geofence_over
+            else -> {
+                R.string.geofence_over
+            }
         }
     }
 
